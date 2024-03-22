@@ -1,0 +1,32 @@
+{
+  "name": "aurora-oracle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint:ts": "eslint --ext .ts deploy scripts test",
+    "lint:sol": "solhint 'contracts/**/*.sol' && prettier --write 'contracts/**/*.sol'",
+    "lint": "pnpm lint:ts && pnpm lint:sol",
+    "lint:fix": "pnpm lint:js --fix && pnpm lint:sol --fix",
+    "compile": "hardhat compile",
+    "auroraTestnet:deploy": "hardhat --network auroraTestnet deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "cross-fetch": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@pythnetwork/pyth-sdk-solidity": "^2.4.1",
+    "hardhat": "^2.21.0",
+    "hardhat-deploy": "^0.12.1"
+  }
+}
