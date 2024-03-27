@@ -7,7 +7,7 @@ import "@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
 /**
  * Aurora oracle Stores external price data
  */
-contract AuroraOracle is Ownable {
+contract AuroraOracleTest is Ownable {
     mapping(bytes32 => PythStructs.Price) public priceMap;
     mapping(string => bool) public isUsdStableToken;
     uint public priceValidTimeRange;
@@ -77,15 +77,15 @@ contract AuroraOracle is Ownable {
         priceValidTimeRange = _priceValidTimeRange;
     }
 
-    function isPriceValid(uint publishTime) internal view {
-        require(block.timestamp <= publishTime + priceValidTimeRange, "Price is outdated");
+    function isPriceValid(uint publishTime) public view {
+        require(block.timestamp <= (publishTime + priceValidTimeRange), "Price is outdated");
     }
 
     // function getPairRate input are bytes32 of TokenA and TokenB and targetPriceDecimalsB
     // The function returns the rate of tokenA to tokenB
     // the function calculate the price by reading PythStructs.Price.price and PythStructs.Price.expo of Token A and Token B
     // The function returns the price of TokenA to TokenB with multiply with targetPriceDecimalsB
-    function getNonUSDPairRate(bytes32 tokenA, bytes32 tokenB, uint8 targetPriceDecimalsB) internal view returns (uint256) {
+    function getNonUSDPairRate(bytes32 tokenA, bytes32 tokenB, uint8 targetPriceDecimalsB) public view returns (uint256) {
         PythStructs.Price memory priceA = priceMap[tokenA];
         PythStructs.Price memory priceB = priceMap[tokenB];
         isPriceValid(priceA.publishTime);
@@ -96,7 +96,7 @@ contract AuroraOracle is Ownable {
     function convertPriceToUint(
         PythStructs.Price memory price,
         uint8 targetDecimals
-    ) private pure returns (uint256) {
+    ) public pure returns (uint256) {
         if (price.price < 0 || price.expo > 0 || price.expo < -255) {
             revert("Invalid price");
         }
